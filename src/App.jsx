@@ -1,6 +1,5 @@
 import React from "react";
 import Router from "@/Router";
-import { PrimeReactProvider } from "primereact/api";
 import { ConfigContext } from "./Setup";
 
 const App = () => {
