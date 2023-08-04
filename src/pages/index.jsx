@@ -36,9 +36,12 @@ export default function HomePage() {
         { path: "/story/6.jpg", message: "ชอบท้องฟ้า" },
     ];
     const favPersonImages = [
-        { path: "/story/7.jpg", message: "😎" },
-        { path: "/story/8.jpg", message: "🤏😳" },
-        { path: "/story/9.jpg", message: "ขอให้เป็นปีที่ 18 ที่มีความสุขที่สุดเลยนะ <3" },
+        // { path: "/story/7.jpg", message: "😎" },
+        { path: "/story/j1.jpeg", message: "😎" },
+        // { path: "/story/8.jpg", message: "🤏😳" },
+        { path: "/story/j2.jpeg", message: "🤏😳" },
+        // { path: "/story/9.jpg", message: "ขอให้เป็นปีที่ 18 ที่มีความสุขที่สุดเลยนะ <3" },
+        { path: "/story/j3.jpeg", message: "ขอให้เป็นปีที่ 18 ที่มีความสุขที่สุดเลยนะ <3" },
     ];
     const images = introImages.concat([{ path: "/story/black.jpeg", message: "แล้วก็..." }]).concat(favPersonImages);
     const [intervalId, setIntervalId] = useState(null);
