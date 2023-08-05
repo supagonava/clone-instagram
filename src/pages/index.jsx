@@ -52,10 +52,10 @@ export default function HomePage() {
     ];
     const favPersonImages = [
         { path: "/story/10.jpg", message: "love sea 😎" },
-        { path: "/story/9.jpg", message: "love camera 🤏" },
-        { path: "/story/7.jpg", message: "love fruit 😳" },
-        { path: "/story/8.jpg", message: "love cafe 💖" },
-        { path: "/story/black.jpeg", message: "" },
+        { path: "/story/9.jpg", message: "love camera 😎🤏" },
+        { path: "/story/7.jpg", message: "love fruit 🤩🕶️🤏" },
+        { path: "/story/8.jpg", message: "love cafe 😳💘" },
+        { path: "/story/black.jpeg", message: "love ⬇️" },
     ];
     const images = introImages.concat(favPersonImages);
     let intervalId = useRef(null);
