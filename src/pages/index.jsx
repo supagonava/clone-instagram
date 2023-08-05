@@ -45,17 +45,17 @@ export default function HomePage() {
     ]);
 
     const introImages = [
-        { path: "/story/1.jpg", message: "love cat" },
-        { path: "/story/3.jpg", message: "love coffee" },
-        { path: "/story/5.jpg", message: "love remen" },
-        { path: "/story/6.jpg", message: "love sky" },
+        { path: "/story/1.jpg", message: "like cat" },
+        { path: "/story/3.jpg", message: "like coffee" },
+        { path: "/story/5.jpg", message: "like remen" },
+        { path: "/story/6.jpg", message: "like sky" },
     ];
     const favPersonImages = [
-        { path: "/story/10.jpg", message: "love sea 😎" },
-        { path: "/story/9.jpg", message: "love camera 😎🤏" },
-        { path: "/story/7.jpg", message: "love fruit 🤩🕶️🤏" },
-        { path: "/story/8.jpg", message: "love cafe 😳💘" },
-        { path: "/story/black.jpeg", message: "love ⬇️" },
+        { path: "/story/10.jpg", message: "like sea 😎" },
+        { path: "/story/9.jpg", message: "like camera 😎 🤏" },
+        { path: "/story/7.jpg", message: "like fruit 🤩 🕶️ 🤏" },
+        { path: "/story/8.jpg", message: "like cafe 😳 ⭐⭐ 🤏" },
+        { path: "/story/black.jpeg", message: "like ⬇️" },
     ];
     const images = introImages.concat(favPersonImages);
     let intervalId = useRef(null);
