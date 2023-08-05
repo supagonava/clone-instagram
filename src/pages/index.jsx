@@ -1,6 +1,6 @@
 import { Avatar, Image, Input, Modal } from "antd";
 import { useContext, useEffect, useRef, useState } from "react";
-import { CloseOutlined, SmallDashOutlined } from "@ant-design/icons";
+import { CloseOutlined, PauseOutlined, SmallDashOutlined } from "@ant-design/icons";
 import {
     InstagramIcon,
     HomeIcon,
@@ -17,6 +17,7 @@ import {
 } from "@/components";
 import { useNavigate } from "react-router";
 import { ConfigContext } from "@/Setup";
+import { Transition } from "@headlessui/react";
 
 export default function HomePage() {
     const { me: meUsername, her: favUsername } = useContext(ConfigContext);
@@ -25,43 +26,60 @@ export default function HomePage() {
     const navigate = useNavigate();
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
+    const [currentImage, setCurrenImage] = useState(0);
+    const [currentMusicSec, setCurrentMusicSec] = useState(0);
     const [showStory, setShowStory] = useState(false);
+    const [watched, setWatched] = useState(false);
+    const [karaoke, setKaraoke] = useState([
+        { eng: "Ikaw at ikaw (ikaw at ikaw, ikaw at ikaw)", tha: "ขอแค่มีเธอเพียงคนเดียว", start_at: 3, end_at: 13 },
+        { eng: "Ikaw at ikaw (ikaw at ikaw, ikaw at ikaw)", tha: "ขอแค่เธอแล้วเราจะไม่ขออะไรอีก", start_at: 13, end_at: 20 },
+        { eng: "Ikaw at ikaw (ikaw at ikaw, ikaw at ikaw)", tha: "เพียงเธอเท่านั้น", start_at: 20, end_at: 25 },
+        { eng: "Ikaw at ikaw (ikaw at ikaw, ikaw at ikaw)", tha: "ชีวิตผมขอแค่เธอก็พอแล้ว", start_at: 25.0, end_at: 29 },
+        { eng: "palad ay basang-basa", tha: "ทำไมมือเรามันชุ่มกันนะ", start_at: 29, end_at: 32 },
+        { eng: "Ang dagitab ay damang-dama", tha: "รู้สึกประหม่าไปหมดเลย", start_at: 32, end_at: 35 },
+        { eng: "Sa 'king kalamnang punong-puno", tha: "เหมือนว่าหัวใจเราไปอยู่กะเธอซะแล้ว", start_at: 35, end_at: 40 },
+        { eng: "'Di maikukumpara", tha: "ไม่มีใครแทนที่เธอได้เลย", start_at: 40, end_at: 43 },
+        { eng: "Araw-araw kong dala-dala", tha: "อยากจะไปทุก ๆ กับเธอสองคน", start_at: 43, end_at: 46 },
+        { eng: "Paboritong panalangin ko'y", tha: "สิ่งที่ผมปราณาที่สุดก็คง...", start_at: 46, end_at: 51 },
+        { eng: "ikaw", tha: "เป็นเธอ", start_at: 51, end_at: 54 },
+    ]);
 
     const introImages = [
-        { path: "/story/1.jpg", message: "ชอบแมว" },
-        // { path: "/story/2.jpg", message: "ชอบกวนแมว" },
-        { path: "/story/3.jpg", message: "ชอบลาเต้" },
-        // { path: "/story/4.jpg", message: "ชอบโชยุราเมง" },
-        { path: "/story/5.jpg", message: "ชอบราเมง" },
-        { path: "/story/6.jpg", message: "ชอบท้องฟ้า" },
+        { path: "/story/1.jpg", message: "love cat" },
+        { path: "/story/3.jpg", message: "love coffee" },
+        { path: "/story/5.jpg", message: "love remen" },
+        { path: "/story/6.jpg", message: "love sky" },
     ];
     const favPersonImages = [
-        // { path: "/story/7.jpg", message: "😎" },
-        { path: "/story/j1.jpeg", message: "😎" },
-        // { path: "/story/8.jpg", message: "🤏😳" },
-        { path: "/story/j2.jpeg", message: "🤏😳" },
-        // { path: "/story/9.jpg", message: "ขอให้เป็นปีที่ 18 ที่มีความสุขที่สุดเลยนะ <3" },
-        { path: "/story/j3.jpeg", message: "ขอให้เป็นปีที่ 18 ที่มีความสุขที่สุดเลยนะ <3" },
+        { path: "/story/7.jpg", message: "love august 😎" },
+        { path: "/story/8.jpg", message: "🤏😳  it's your birthday" },
+        { path: "/story/9.jpg", message: "HBD I Wishing you the happiest 18th year ever! <3" },
     ];
-    const images = introImages.concat([{ path: "/story/black.jpeg", message: "แล้วก็..." }]).concat(favPersonImages);
-    const [intervalId, setIntervalId] = useState(null);
+    const images = introImages.concat([{ path: "/story/black.jpeg", message: "and . . ." }]).concat(favPersonImages);
+    let intervalId = useRef(null);
+    let mapped = useRef({});
+
+    const intervaltime = () =>
+        setInterval(() => {
+            setCurrentTime((prev) => {
+                if (!mapped.current[prev + 1]) {
+                    if ((prev + 1) % SEC_PER_IMAGE === 0) {
+                        toNextImage();
+                    }
+                    mapped.current[prev + 1] = true;
+                }
+                return prev + 1;
+            });
+        }, 1000);
 
     const onOpenStory = async () => {
+        setWatched(true);
         const audio = audioRef.current;
         setShowStory(true);
         audio.play();
         setIsPlaying(true);
-
         setCurrentTime(0);
-        if (!intervalId) {
-            const id = setInterval(() => {
-                setCurrentTime((prev) => {
-                    if (prev + 1 >= images.length * SEC_PER_IMAGE) return 0;
-                    return prev + 1;
-                });
-            }, 1000);
-            setIntervalId(id);
-        }
+        intervalId.current = intervaltime();
     };
 
     const onCloseStory = async () => {
@@ -71,16 +89,52 @@ export default function HomePage() {
         setIsPlaying(false);
         setShowStory(false);
 
-        if (intervalId) {
-            setCurrentTime(currentTime + 0);
-            clearInterval(intervalId);
-            setIntervalId(null);
-        }
+        setCurrenImage(0);
+        setCurrentTime(0);
+
+        clearInterval(intervalId.current);
+        intervalId.current = null;
+        mapped.current = {};
+    };
+
+    const toNextImage = () => {
+        console.log("toNextImage");
+        setCurrenImage((curImage) => {
+            if (curImage + 1 >= images.length) {
+                return 0;
+            }
+            return curImage + 1;
+        });
+    };
+
+    const toPrevImage = () => {
+        console.log("toPrevImage");
+        setCurrenImage((curImage) => {
+            if (curImage >= 1) {
+                return curImage - 1;
+            }
+            return curImage;
+        });
     };
 
     const handleTimeUpdate = () => {
         const audioElement = audioRef.current;
-        setCurrentTime(audioElement.currentTime);
+        setCurrentMusicSec(parseFloat(audioElement.currentTime));
+    };
+
+    const onHold = () => {
+        const audioElement = audioRef.current;
+        audioElement.pause();
+        setIsPlaying(false);
+        clearInterval(intervalId.current);
+        intervalId.current = null;
+    };
+
+    const onResume = () => {
+        const audioElement = audioRef.current;
+        audioElement.play();
+        setIsPlaying(true);
+        intervalId.current = intervaltime();
     };
 
     useEffect(() => {
@@ -102,7 +156,7 @@ export default function HomePage() {
 
     return (
         <>
-            <audio ref={audioRef} controls className="hidden">
+            <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} controls className="hidden">
                 <source src="story-background.mp3" type="audio/mpeg" />
             </audio>
             {!showStory && (
@@ -137,7 +191,10 @@ export default function HomePage() {
                                         className="flex flex-col gap-2 justify-center max-w-[65px] h-full cursor-pointer"
                                     >
                                         <div className="relative">
-                                            <div className="absolute bg-gradient-to-tr from-orange-300 to-pink-600 rounded-full h-[60px] w-[60px]"></div>
+                                            {!watched && (
+                                                <div className="absolute bg-gradient-to-tr from-orange-300 to-pink-600 rounded-full h-[60px] w-[60px]"></div>
+                                            )}
+                                            {watched && <div className="absolute bg-gray-300 rounded-full h-[60px] w-[60px]"></div>}
                                             <Avatar
                                                 src="/img/me.jpeg"
                                                 className="absolute top-[2px] left-[2px] h-[56px] w-[56px] border border-white"
@@ -179,7 +236,7 @@ export default function HomePage() {
                                     </div>
                                     <div className="flex gap-2">
                                         <div className="font-bold text-base">{meUsername}</div>
-                                        <div>ดูสตอรี่เราหน่อยยยยยจิ...</div>
+                                        <div>ดูสตอรี่เราหน่อยยยยยจิ ละเปิดเสียงด้วยนะ...</div>
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +254,16 @@ export default function HomePage() {
                     </div>
                 </div>
             )}
-            {showStory && (
+            <Transition
+                show={showStory}
+                className={"bg-black"}
+                enter="transition-opacity duration-200"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+            >
                 <div className="relative w-screen flex justify-center overflow-y-scroll">
                     <div className="h-screen flex items-center flex-col max-w-md w-full bg-black">
                         <div className="h-[80px] flex justify-between py-[16px] items-center w-full px-4">
@@ -205,7 +271,7 @@ export default function HomePage() {
                                 <Avatar src="/img/me.jpeg" className="h-[32px] w-[32px]"></Avatar>
                                 <div className="flex items-center gap-2">
                                     <div className="text-white">{meUsername}</div>
-                                    <div className="text-gray-100">{currentTime} วินาที</div>
+                                    <div className="text-gray-100 text-xs">เมื่อสักครู่</div>
                                 </div>
                             </div>
                             <div onClick={() => onCloseStory()} className="flex items-center gap-2">
@@ -216,35 +282,100 @@ export default function HomePage() {
                         <div className="flex justify-evenly gap-1 rounded-xl p-1 w-full">
                             {images.map((i, ind) => (
                                 <div
-                                    key={i}
+                                    key={`tab-active-${ind}`}
                                     className={`h-[2px] w-full ${
-                                        parseInt(currentTime / SEC_PER_IMAGE) > ind
-                                            ? "bg-white"
-                                            : parseInt(currentTime / SEC_PER_IMAGE) === ind
-                                            ? "bg-blue-500"
-                                            : "bg-gray-400"
+                                        currentImage > ind ? "bg-white" : currentImage === ind ? "bg-blue-500" : "bg-gray-400"
                                     }`}
                                 ></div>
                             ))}
                         </div>
                         <div className="relative w-full h-[85vh]">
-                            <p className="text-white text-[24px] absolute z-10 top-[1%] left-[1%] px-2">
-                                {images[parseInt(currentTime / SEC_PER_IMAGE)]?.message}
-                            </p>
-                            <Image
-                                height={"100%"}
-                                width={"100%"}
-                                className="object-cover absolute z-0"
-                                preview={false}
-                                src={images[parseInt(currentTime / SEC_PER_IMAGE)]?.path}
-                            />
+                            <div className="absolute z-10 top-[50px] px-2 w-full">
+                                {images.map((item, ind) => (
+                                    <Transition
+                                        key={`message-${ind}`}
+                                        show={currentImage === ind}
+                                        enter="transition-opacity duration-300"
+                                        enterFrom="opacity-0"
+                                        enterTo="opacity-100"
+                                        leave="transition-opacity duration-300"
+                                        leaveFrom="opacity-100"
+                                        leaveTo="opacity-0"
+                                    >
+                                        <div className="relative w-full flex justify-center">
+                                            <p className="text-center px-2 text-[20px] absolute text-white bg-black opacity-40 rounded-lg">
+                                                {images[ind]?.message}
+                                            </p>
+                                            <p className="text-center px-2 text-[20px] absolute text-white z-10">{images[ind]?.message}</p>
+                                        </div>
+                                    </Transition>
+                                ))}
+                            </div>
+                            {karaoke.map((item, ind) => {
+                                return (
+                                    <div key={`karaoke-${ind}`} className="text-center text-white text-[18px] absolute z-10 bottom-[2%] px-2 w-full">
+                                        <Transition
+                                            show={currentMusicSec >= item.start_at && currentMusicSec < item.end_at}
+                                            enter="transition-opacity duration-300"
+                                            enterFrom="opacity-0"
+                                            enterTo="opacity-100"
+                                            leave="transition-opacity duration-300"
+                                            leaveFrom="opacity-100"
+                                            leaveTo="opacity-0"
+                                        >
+                                            {item.eng}
+                                            <br />
+                                            {item.tha}
+                                        </Transition>
+                                    </div>
+                                );
+                            })}
+                            <div className="absolute h-full w-full">
+                                <div className="w-full h-full relative">
+                                    <div className="absolute z-10 flex justify-center w-full h-full">
+                                        <div
+                                            onClick={() => (isPlaying ? onHold() : onResume())}
+                                            className="w-[40vw] flex items-center justify-center"
+                                        >
+                                            {!isPlaying && <PauseOutlined className="text-white text-[50px] bg-black opacity-60 p-2 rounded-md" />}
+                                        </div>
+                                    </div>
+                                    <div
+                                        onClick={() => {
+                                            if (isPlaying) {
+                                                toPrevImage();
+                                                mapped.current = {};
+                                                setCurrentTime(0);
+                                            }
+                                        }}
+                                        className="absolute z-20 left-0 w-[20vw] opacity-20 h-full"
+                                    ></div>
+                                    <div
+                                        onClick={() => {
+                                            if (isPlaying) {
+                                                toNextImage();
+                                                mapped.current = {};
+                                                setCurrentTime(0);
+                                            }
+                                        }}
+                                        className="absolute z-20 right-0 w-[20vw] opacity-20 h-full"
+                                    ></div>
+                                    <Image
+                                        height={"100%"}
+                                        width={"100%"}
+                                        className="object-cover absolute"
+                                        preview={false}
+                                        src={images[currentImage]?.path}
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <div className="h-[80px] flex justify-end py-[16px] items-center w-full px-[16px]">
                             <div className="h-[24px] w-[24px]">{HeartActiveIcon}</div>
                         </div>
                     </div>
                 </div>
-            )}
+            </Transition>
         </>
     );
 }
