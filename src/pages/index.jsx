@@ -103,7 +103,7 @@ export default function HomePage() {
         console.log("toNextImage");
         setCurrenImage((curImage) => {
             if (curImage + 1 >= images.length) {
-                return 0;
+                return curImage;
             }
             return curImage + 1;
         });
