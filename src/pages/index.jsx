@@ -40,14 +40,14 @@ export default function HomePage() {
         { eng: "Sa 'king kalamnang punong-puno", tha: "เหมือนว่าหัวใจผมไปอยู่กะเธอซะแล้ว", start_at: 35, end_at: 40 },
         { eng: "'Di maikukumpara", tha: "ไม่มีใครแทนที่เธอได้เลย", start_at: 40, end_at: 43 },
         { eng: "Araw-araw kong dala-dala", tha: "อยากจะไปทุก ๆ ที่กับเธอสองคน", start_at: 43, end_at: 46 },
-        { eng: "Paboritong panalangin ko'y", tha: "สิ่งที่ผมปรารถนาที่สุดก็คง...", start_at: 46, end_at: 51 },
-        { eng: "ikaw", tha: "เป็นเธอ", start_at: 51, end_at: 54 },
+        { eng: "Paboritong panalangin ko'y", tha: "สิ่งที่ผมปรารถนาที่สุดก็คงเป็น...", start_at: 46, end_at: 51 },
+        { eng: "ikaw", tha: "เธอ", start_at: 51, end_at: 54 },
     ]);
 
     const introImages = [
         { path: "/story/1.jpg", message: "like cat" },
         { path: "/story/3.jpg", message: "like coffee" },
-        { path: "/story/5.jpg", message: "like remen" },
+        { path: "/story/5.jpg", message: "like ramen" },
         { path: "/story/6.jpg", message: "like sky" },
     ];
     const favPersonImages = [
@@ -55,6 +55,7 @@ export default function HomePage() {
         { path: "/story/9.jpg", message: "like camera 😎 🤏" },
         { path: "/story/7.jpg", message: "like fruit 🤩 🕶️ 🤏" },
         { path: "/story/8.jpg", message: "like cafe 😳 ⭐⭐ 🤏" },
+        { path: "/story/11.jpg", message: "like u smile 😍😳" },
         { path: "/story/black.jpeg", message: "like ⬇️" },
     ];
     const images = introImages.concat(favPersonImages);
@@ -162,14 +163,7 @@ export default function HomePage() {
                 <div className="w-screen flex justify-center overflow-y-scroll">
                     <div className="h-screen flex justify-end items-center flex-col bg-white max-w-md">
                         <div className="h-[70px] border-b border-gray-300 w-full p-[8px] flex justify-between items-center px-[32px]">
-                            <div
-                                style={{
-                                    height: "29px",
-                                    width: "103px",
-                                }}
-                            >
-                                {InstagramIcon}
-                            </div>
+                            <div className="flex flex-col items-center justify-center h-[32px] w-[103px]">{InstagramIcon}</div>
                             <div className="flex justify-end gap-[16px] items-center">
                                 <div className="flex items-center bg-gray-200 px-[16px] rounded-lg h-[36px] w-2/3">
                                     {SearchIcon}
@@ -314,7 +308,9 @@ export default function HomePage() {
                                 return (
                                     <div
                                         key={`karaoke-${ind}`}
-                                        className={`text-center text-white text-[18px] absolute z-10 bottom-[2%] px-2 w-full`}
+                                        className={`text-center text-white text-[18px] absolute z-10 ${
+                                            item.start_at === 51 ? "bottom-[80%]" : "bottom-[2%]"
+                                        } px-2 w-full`}
                                     >
                                         <Transition
                                             show={currentMusicSec >= item.start_at && currentMusicSec < item.end_at}
@@ -370,6 +366,7 @@ export default function HomePage() {
                             </div>
                         </div>
                         <div className="h-[80px] flex justify-end py-[16px] items-center w-full px-[16px]">
+                            <div className="border border-white rounded-2xl text-white py-2 mr-8 w-full px-8">ส่งข้อความ</div>
                             <div className="h-[24px] w-[24px]">{HeartActiveIcon}</div>
                         </div>
                     </div>
