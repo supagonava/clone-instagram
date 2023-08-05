@@ -207,7 +207,7 @@ export default function HomePage() {
                                                     <p className="font-bold">{meUsername}</p>
                                                     <p className="text-sm">• 1 นาที</p>
                                                 </div>
-                                                <p className="text-sm">บางซื่อ กรุงเทพฯ</p>
+                                                <p className="text-sm">บางแสน ชลบุรี</p>
                                             </div>
                                         </div>
                                         <div className="w-[24px] h-[24px]">{TripleDotIcon}</div>
