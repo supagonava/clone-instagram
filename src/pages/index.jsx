@@ -309,7 +309,7 @@ export default function HomePage() {
                                     <div
                                         key={`karaoke-${ind}`}
                                         className={`text-center text-white text-[18px] absolute z-10 ${
-                                            item.start_at === 51 ? "bottom-[80%]" : "bottom-[2%]"
+                                            item.start_at === 51 ? "bottom-[60%]" : "bottom-[2%]"
                                         } px-2 w-full`}
                                     >
                                         <Transition
