@@ -41,12 +41,12 @@ export default function HomePage() {
         { eng: "'Di maikukumpara", tha: "ไม่มีใครแทนที่เธอได้เลย", start_at: 40, end_at: 43 },
         { eng: "Araw-araw kong dala-dala", tha: "อยากจะไปทุก ๆ ที่กับเธอสองคน", start_at: 43, end_at: 46 },
         { eng: "Paboritong panalangin ko'y", tha: "สิ่งที่ผมปรารถนาที่สุดก็คงเป็น...", start_at: 46, end_at: 51 },
-        { eng: "ikaw", tha: "เธอ", start_at: 51, end_at: 54 },
+        { eng: "ikaw, เธอ", tha: "(แหะๆ รูปน้อยไปหน่อย >//<)", start_at: 51, end_at: 54 },
     ]);
 
     const introImages = [
         { path: "/story/1.jpg", message: "like cat" },
-        { path: "/story/3.jpg", message: "like coffee" },
+        // { path: "/story/3.jpg", message: "like coffee" },
         { path: "/story/5.jpg", message: "like ramen" },
         { path: "/story/6.jpg", message: "like sky" },
     ];
