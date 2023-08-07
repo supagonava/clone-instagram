@@ -212,7 +212,12 @@ export default function HomePage() {
                                         </div>
                                         <div className="w-[24px] h-[24px]">{TripleDotIcon}</div>
                                     </div>
-                                    <Image preview={false} className="max-h-[500px]" src="/img/meme.jpeg" />
+                                    {/* <Image preview={false} className="max-h-[500px]" src="/img/meme.jpeg" /> */}
+                                    <div className="h-[500px] bg-black flex flex-col justify-center items-center text-white text-center px-8 gap-4">
+                                        <p className="text-xl">หมอนที่จริงใจ + ปลุกเสกให้จูนนอนหลับไม่ฝันแล้วนะครับ</p>
+                                        <p className="text-base">แล้วก็ฝากดูแลลูกพี่ด้วยนะชื่อน้องมอมแมม มีหมอนให้น้องไปด้วยใบเล็กง่ะ</p>
+                                        <p className="text-xs rotate-180">นอกจากหมอนก็มีพี่นี่แหละครับที่จริงใจ แฮร่</p>
+                                    </div>
                                     <div className="flex justify-between">
                                         <div className="flex gap-4">
                                             <div className="h-[24px] w-[24px]">{HeartActiveIcon}</div>
