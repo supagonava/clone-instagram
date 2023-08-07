@@ -22,7 +22,7 @@ import { Transition } from "@headlessui/react";
 export default function HomePage() {
     const { me: meUsername, her: favUsername } = useContext(ConfigContext);
     const audioRef = useRef(null);
-    const SEC_PER_IMAGE = 6;
+    const SEC_PER_IMAGE = 5;
     const navigate = useNavigate();
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -31,10 +31,13 @@ export default function HomePage() {
     const [showStory, setShowStory] = useState(false);
     const [watched, setWatched] = useState(false);
     const [karaoke, setKaraoke] = useState([
-        { eng: "Ikaw at ikaw (ikaw at ikaw, ikaw at ikaw)", tha: "ขอแค่มีเธอเพียงคนเดียว", start_at: 3, end_at: 13 },
-        { eng: "Ikaw at ikaw (ikaw at ikaw, ikaw at ikaw)", tha: "ขอแค่เธอแล้วผมจะไม่ขออะไรอีก", start_at: 13, end_at: 20 },
-        { eng: "Ikaw at ikaw (ikaw at ikaw, ikaw at ikaw)", tha: "เพียงเธอเท่านั้น", start_at: 20, end_at: 25 },
-        { eng: "Ikaw at ikaw (ikaw at ikaw, ikaw at ikaw)", tha: "ชีวิตผมขอแค่เธอก็พอแล้ว", start_at: 25.0, end_at: 29 },
+        { eng: "Ikaw at ikaw", tha: "ขอแค่มีเธอ", start_at: 3, end_at: 6 },
+        { eng: "Ikaw at ikaw", tha: "ขอแค่เธอ แล้วผมจะไม่ขออะไรอีก", start_at: 6, end_at: 9 },
+        { eng: "Ikaw at ikaw", tha: "เพียงเธอเท่านั้น", start_at: 9, end_at: 13 },
+        { eng: "Ikaw at ikaw", tha: "ขอแค่มีเธอเพียงคนเดียว", start_at: 13, end_at: 18 },
+        { eng: "Ikaw at ikaw", tha: "ขอแค่เธอ แล้วผมจะไม่ขออะไรอีก", start_at: 18, end_at: 20 },
+        { eng: "Ikaw at ikaw", tha: "เพียงเธอเท่านั้น", start_at: 20, end_at: 25 },
+        { eng: "Ikaw at ikaw", tha: "ชีวิตผม ขอแค่เธอก็พอแล้ว", start_at: 25, end_at: 29 },
         { eng: "palad ay basang-basa", tha: "ทำไมมือผมมันชุ่มเหงื่อกันนะ", start_at: 29, end_at: 32 },
         { eng: "Ang dagitab ay damang-dama", tha: "รู้สึกประหม่าไปหมดเลย", start_at: 32, end_at: 35 },
         { eng: "Sa 'king kalamnang punong-puno", tha: "เหมือนว่าหัวใจผมไปอยู่กะเธอซะแล้ว", start_at: 35, end_at: 40 },
@@ -45,18 +48,19 @@ export default function HomePage() {
     ]);
 
     const introImages = [
-        { path: "/story/1.jpg", message: "like cat" },
-        // { path: "/story/3.jpg", message: "like coffee" },
-        { path: "/story/5.jpg", message: "like ramen" },
-        { path: "/story/6.jpg", message: "like sky" },
+        { path: "/story/cat.jpg", message: "รันเพลงรอบแรกให้ปล่อยรันไปเลย (กดได้แบบ IG Story เด้งหน้า เด้งหลัง เขยิ๊บ เขยิ๊บ)" },
+        { path: "/story/1.jpg", message: "ชอบแมวว" },
+        { path: "/story/3.jpg", message: "ชอบกาแฟ" },
+        { path: "/story/5.jpg", message: "ชอบราเมง" },
+        { path: "/story/6.jpg", message: "ชอบท้องฟ้า" },
     ];
     const favPersonImages = [
-        { path: "/story/10.jpg", message: "like sea 😎" },
-        { path: "/story/9.jpg", message: "like camera 😎 🤏" },
-        { path: "/story/7.jpg", message: "like fruit 🤩 🕶️ 🤏" },
-        { path: "/story/8.jpg", message: "like cafe 😳 ⭐⭐ 🤏" },
-        { path: "/story/11.jpg", message: "like u smile 😍😳" },
-        { path: "/story/black.jpeg", message: "like ⬇️" },
+        { path: "/story/10.jpg", message: "ชอบทะเล 😎" },
+        { path: "/story/9.jpg", message: "ชอบกล้อง 😎 🤏" },
+        { path: "/story/7.jpg", message: "ชอบผลไม้ 🤩 🕶️ 🤏" },
+        { path: "/story/8.jpg", message: "ชอบคาเฟ่ 😳 ⭐⭐ 🤏" },
+        { path: "/story/11.jpg", message: "ชอบรอยยิ้ม 😍😳" },
+        { path: "/story/black.jpeg", message: "ชอบ ⬇️" },
     ];
     const images = introImages.concat(favPersonImages);
     let intervalId = useRef(null);
@@ -301,10 +305,10 @@ export default function HomePage() {
                                         leaveTo="opacity-0"
                                     >
                                         <div className="relative w-full flex justify-center">
-                                            <p className="text-center px-2 text-[20px] absolute text-white bg-black opacity-40 rounded-lg">
+                                            <p className="text-center px-2 text-[28px] absolute text-white bg-black opacity-40 rounded-lg">
                                                 {images[ind]?.message}
                                             </p>
-                                            <p className="text-center px-2 text-[20px] absolute text-white z-10">{images[ind]?.message}</p>
+                                            <p className="text-center px-2 text-[28px] absolute text-white z-10">{images[ind]?.message}</p>
                                         </div>
                                     </Transition>
                                 ))}
