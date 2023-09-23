@@ -4,7 +4,7 @@ import { ConfigContext } from "./Setup";
 
 const App = () => {
     return (
-        <ConfigContext.Provider value={{ me: "supakornpond", her: "jjunepyr" }}>
+        <ConfigContext.Provider value={{ me: "supakornpond", her: "kurxnekx.l" }}>
             <Router />
         </ConfigContext.Provider>
     );

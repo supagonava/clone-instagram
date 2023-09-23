@@ -18,11 +18,13 @@ import {
 import { useNavigate } from "react-router";
 import { ConfigContext } from "@/Setup";
 import { Transition } from "@headlessui/react";
+const SEC_PER_IMAGE = 4;
 
 export default function HomePage() {
     const { me: meUsername, her: favUsername } = useContext(ConfigContext);
     const audioRef = useRef(null);
-    const SEC_PER_IMAGE = 5;
+    const videoRef = useRef();
+
     const navigate = useNavigate();
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -30,39 +32,42 @@ export default function HomePage() {
     const [currentMusicSec, setCurrentMusicSec] = useState(0);
     const [showStory, setShowStory] = useState(false);
     const [watched, setWatched] = useState(false);
-    const [karaoke, setKaraoke] = useState([
-        { eng: "Ikaw at ikaw", tha: "ขอแค่มีเธอ", start_at: 3, end_at: 6 },
-        { eng: "Ikaw at ikaw", tha: "ขอแค่เธอ แล้วผมจะไม่ขออะไรอีก", start_at: 6, end_at: 9 },
-        { eng: "Ikaw at ikaw", tha: "เพียงเธอเท่านั้น", start_at: 9, end_at: 13 },
-        { eng: "Ikaw at ikaw", tha: "ขอแค่มีเธอเพียงคนเดียว", start_at: 13, end_at: 18 },
-        { eng: "Ikaw at ikaw", tha: "ขอแค่เธอ แล้วผมจะไม่ขออะไรอีก", start_at: 18, end_at: 20 },
-        { eng: "Ikaw at ikaw", tha: "เพียงเธอเท่านั้น", start_at: 20, end_at: 25 },
-        { eng: "Ikaw at ikaw", tha: "ชีวิตผม ขอแค่เธอก็พอแล้ว", start_at: 25, end_at: 29 },
-        { eng: "palad ay basang-basa", tha: "ทำไมมือผมมันชุ่มเหงื่อกันนะ", start_at: 29, end_at: 32 },
-        { eng: "Ang dagitab ay damang-dama", tha: "รู้สึกประหม่าไปหมดเลย", start_at: 32, end_at: 35 },
-        { eng: "Sa 'king kalamnang punong-puno", tha: "เหมือนว่าหัวใจผมไปอยู่กะเธอซะแล้ว", start_at: 35, end_at: 40 },
-        { eng: "'Di maikukumpara", tha: "ไม่มีใครแทนที่เธอได้เลย", start_at: 40, end_at: 43 },
-        { eng: "Araw-araw kong dala-dala", tha: "อยากจะไปทุก ๆ ที่กับเธอสองคน", start_at: 43, end_at: 46 },
-        { eng: "Paboritong panalangin ko'y", tha: "สิ่งที่ผมปรารถนาที่สุดก็คงเป็น...", start_at: 46, end_at: 51 },
-        { eng: "ikaw, เธอ", tha: "(แหะๆ รูปน้อยไปหน่อย >//<)", start_at: 51, end_at: 54 },
-    ]);
+    const [karaoke, setKaraoke] = useState([]);
 
-    const introImages = [
-        { path: "/story/cat.jpg", message: "รันเพลงรอบแรกให้ปล่อยรันไปเลย (กดได้แบบ IG Story เด้งหน้า เด้งหลัง เขยิ๊บ เขยิ๊บ)" },
-        { path: "/story/1.jpg", message: "ชอบแมวว" },
-        { path: "/story/3.jpg", message: "ชอบกาแฟ" },
-        { path: "/story/5.jpg", message: "ชอบราเมง" },
-        { path: "/story/6.jpg", message: "ชอบท้องฟ้า" },
+    const images = [
+        { path: "story/20220731_123613.jpg", message: "สวัสดีคุณลี่ตอนอายุ 19 ขวบนะครับ" },
+        { path: "/story/VID_251460812_052621_934.mp4", message: "ยังจำวันแรกที่กลับมาเจอกันได้มั้ยน้า วันนั้นพี่ปล่อยหนูรอเก้อเลย 5555 ติดประชุมแต่ก็อยากเจอมากเหมือนกัน T T" },
+        { path: "/story/20221223_170254.jpg", message: "หลังจากวันนั้นก็เริ่มจะมาเจอกันเรื่อยๆ พ้มกลายเป็น 🥸 พ่อคนที่สองซะแนะ" },
+        {
+            path: "/story/20221223_170740.jpg",
+            message: "เมดดรีมอินตึงๆ เลย น่าเสียดายที่ไม่ได้เห็นพี่เนี้ยวๆ สั่งอาหารให้ 5555 วันนั้นกินเสร็จไปต่อที่ AnimateCafe ได้อาเนียด้วยแหละ ได้กันทั้งคู่เลยพกดวงไปเยอะ 🤣",
+        },
+        {
+            path: "/story/3B199E18-DF7F-4A0F-8ADF-F60CEB326AA8.JPG",
+            message: "อันนี้ไปกิน Momo อร่อยสมใจ แต่ตอนนั้นได้ยินผิดนึกว่าลี่จะให้สั่งเพิ่ม แทบจะอ้วกเลย น้ำเค็มมากกกสุดดด",
+        },
+        { path: "/story/cf1b3493f80d4437a8cb7bd72d3e189e.mp4", message: "อยากจะถ่ายลี่แหละแต่พอลี่ยิ้ม น่ารักเขินหันกล้องหนีก่อน เขินนนน" },
+        { path: "/story/46bc1a409c15439b9a1dd70464853c8f.mp4", message: "อันนี้ไปเดินเกษตรแฟร์ ลี่เดินจนขาแทบหัก เพราะเดินไปมาแถวสยามอีก" },
+        { path: "/story/5a35dedd7dda4e27a736b2df9a8fa3ea.mp4", message: "คุณลี่เขาชอบมากะเสื้อตัวโปรดเขาแหละ เท่จังเลย" },
+        { path: "/story/c73a52e9b71f4e7e83004e688cc13af6.mp4", message: "" },
+        { path: "/story/f9b7c652a2eb40fb8ef8f829699041a5.mp4", message: "" },
+        {
+            path: "/story/Screenshot_20230305_200856_Instagram.jpg",
+            message: "บางครั้งก็แอบคิดว่าถ้าได้เจอกันในช่วงเวลาที่เหมาะสมกว่านี้คงจะดี ยังมีอะไรอีกตั้งหลายอย่างที่อยากทำด้วยกะลี่",
+        },
+        { path: "/story/IMG_0046.jpg", message: "ขอบคุณมากนะ พี่มีความสุขมากเลย (เอ๊ะวันเกิดใครกันเนี่ย)" },
     ];
-    const favPersonImages = [
-        { path: "/story/10.jpg", message: "ชอบทะเล 😎" },
-        { path: "/story/9.jpg", message: "ชอบกล้อง 😎 🤏" },
-        { path: "/story/7.jpg", message: "ชอบผลไม้ 🤩 🕶️ 🤏" },
-        { path: "/story/8.jpg", message: "ชอบคาเฟ่ 😳 ⭐⭐ 🤏" },
-        { path: "/story/11.jpg", message: "ชอบรอยยิ้ม 😍😳" },
-        { path: "/story/black.jpeg", message: "ชอบ ⬇️" },
-    ];
-    const images = introImages.concat(favPersonImages);
+    const storyContents = images.map((item, index) => {
+        if (!item.path.endsWith("mp4")) return <Image height={"100%"} width={"100%"} className="object-cover absolute" preview={false} src={item?.path} />;
+        return (
+            <div className="video-container">
+                <video ref={videoRef} autoPlay loop muted>
+                    <source width="100%" src={item.path} type="video/mp4" />
+                </video>
+            </div>
+        );
+    });
+
     let intervalId = useRef(null);
     let mapped = useRef({});
 
@@ -108,7 +113,7 @@ export default function HomePage() {
         console.log("toNextImage");
         setCurrenImage((curImage) => {
             if (curImage + 1 >= images.length) {
-                return curImage;
+                return 0;
             }
             return curImage + 1;
         });
@@ -131,7 +136,9 @@ export default function HomePage() {
 
     const onHold = () => {
         const audioElement = audioRef.current;
+        const videoElement = videoRef.current;
         audioElement.pause();
+        videoElement.pause();
         setIsPlaying(false);
         clearInterval(intervalId.current);
         intervalId.current = null;
@@ -139,7 +146,9 @@ export default function HomePage() {
 
     const onResume = () => {
         const audioElement = audioRef.current;
+        const videoElement = videoRef.current;
         audioElement.play();
+        videoElement.play();
         setIsPlaying(true);
         intervalId.current = intervaltime();
     };
@@ -148,15 +157,21 @@ export default function HomePage() {
         const audioElement = audioRef.current;
 
         const handleEnded = () => {
-            onCloseStory();
+            audioElement.currentTime = 0;
+            audioElement.play();
         };
 
         audioElement.addEventListener("ended", handleEnded);
-
         return () => {
             audioElement.removeEventListener("ended", handleEnded);
         };
     }, []);
+
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.load();
+        }
+    }, [currentImage]);
 
     return (
         <>
@@ -183,19 +198,11 @@ export default function HomePage() {
                                         <Avatar src="/img/her.jpeg" className="h-[56px] w-[56px]" />
                                         <p className="text-xs truncate">สตอรี่ของ {favUsername}</p>
                                     </div>
-                                    <div
-                                        onClick={() => onOpenStory()}
-                                        className="flex flex-col gap-2 justify-center max-w-[65px] h-full cursor-pointer"
-                                    >
+                                    <div onClick={() => onOpenStory()} className="flex flex-col gap-2 justify-center max-w-[65px] h-full cursor-pointer">
                                         <div className="relative">
-                                            {!watched && (
-                                                <div className="absolute bg-gradient-to-tr from-orange-300 to-pink-600 rounded-full h-[60px] w-[60px]"></div>
-                                            )}
+                                            {!watched && <div className="absolute bg-gradient-to-tr from-orange-300 to-pink-600 rounded-full h-[60px] w-[60px]"></div>}
                                             {watched && <div className="absolute bg-gray-300 rounded-full h-[60px] w-[60px]"></div>}
-                                            <Avatar
-                                                src="/img/me.jpeg"
-                                                className="absolute top-[2px] left-[2px] h-[56px] w-[56px] border border-white"
-                                            />
+                                            <Avatar src="/img/me.jpeg" className="absolute top-[2px] left-[2px] h-[56px] w-[56px] border border-white" />
                                         </div>
                                         <p className="text-xs truncate pt-[58px]">{meUsername}</p>
                                     </div>
@@ -211,16 +218,14 @@ export default function HomePage() {
                                                     <p className="font-bold">{meUsername}</p>
                                                     <p className="text-sm">• 1 นาที</p>
                                                 </div>
-                                                <p className="text-sm">บางแสน ชลบุรี</p>
+                                                <p className="text-sm">ลาดกระบัง กรุงเทพ</p>
                                             </div>
                                         </div>
                                         <div className="w-[24px] h-[24px]">{TripleDotIcon}</div>
                                     </div>
                                     {/* <Image preview={false} className="max-h-[500px]" src="/img/meme.jpeg" /> */}
-                                    <div className="h-[500px] bg-black flex flex-col justify-center items-center text-white text-center px-8 gap-4">
-                                        <p className="text-xl">หมอนที่จริงใจ + ปลุกเสกให้จูนนอนหลับไม่ฝันแล้วนะครับ</p>
-                                        <p className="text-base">แล้วก็ฝากดูแลลูกพี่ด้วยนะชื่อน้องมอมแมม มีหมอนให้น้องไปด้วยใบเล็กง่ะ</p>
-                                        <p className="text-xs rotate-180">กลับหัวมาอ่านนี่มีใจมั้ยครับ</p>
+                                    <div className="h-[300px] bg-gradient-to-r from-amber-600 to-blue-600 flex flex-col justify-center items-center text-white text-center px-8 gap-4">
+                                        <p className="text-xl">ในสตอรี่มีอะไรบางอย่าง ที่ต้องเปิดเสียงด้วย</p>
                                     </div>
                                     <div className="flex justify-between">
                                         <div className="flex gap-4">
@@ -238,7 +243,7 @@ export default function HomePage() {
                                     </div>
                                     <div className="flex gap-2">
                                         <div className="font-bold text-base">{meUsername}</div>
-                                        <div>ดูสตอรี่เราหน่อยยยยยจิ ละเปิดเสียงด้วยนะ...</div>
+                                        <div>ปีนี้คงไม่มีอะไรพิเศษให้...</div>
                                     </div>
                                 </div>
                             </div>
@@ -285,14 +290,12 @@ export default function HomePage() {
                             {images.map((i, ind) => (
                                 <div
                                     key={`tab-active-${ind}`}
-                                    className={`h-[2px] w-full ${
-                                        currentImage > ind ? "bg-white" : currentImage === ind ? "bg-blue-500" : "bg-gray-400"
-                                    }`}
+                                    className={`h-[2px] w-full ${currentImage > ind ? "bg-white" : currentImage === ind ? "bg-blue-500" : "bg-gray-400"}`}
                                 ></div>
                             ))}
                         </div>
                         <div className="relative w-full h-[85vh]">
-                            <div className="absolute z-10 top-[50px] px-2 w-full">
+                            <div className="absolute z-10 bottom-[5rem] px-2 w-full">
                                 {images.map((item, ind) => (
                                     <Transition
                                         key={`message-${ind}`}
@@ -305,10 +308,8 @@ export default function HomePage() {
                                         leaveTo="opacity-0"
                                     >
                                         <div className="relative w-full flex justify-center">
-                                            <p className="text-center px-2 text-[28px] absolute text-white bg-black opacity-40 rounded-lg">
-                                                {images[ind]?.message}
-                                            </p>
-                                            <p className="text-center px-2 text-[28px] absolute text-white z-10">{images[ind]?.message}</p>
+                                            <p className="text-center px-2 text-[16px] absolute text-white bg-black opacity-40 rounded-lg">{images[ind]?.message}</p>
+                                            <p className="text-center px-2 text-[16px] absolute text-white z-10">{images[ind]?.message}</p>
                                         </div>
                                     </Transition>
                                 ))}
@@ -317,9 +318,7 @@ export default function HomePage() {
                                 return (
                                     <div
                                         key={`karaoke-${ind}`}
-                                        className={`text-center text-white text-[18px] absolute z-10 ${
-                                            item.start_at === 51 ? "bottom-[60%]" : "bottom-[2%]"
-                                        } px-2 w-full`}
+                                        className={`text-center text-white text-[18px] absolute z-10 ${item.start_at === 51 ? "bottom-[60%]" : "bottom-[2%]"} px-2 w-full`}
                                     >
                                         <Transition
                                             show={currentMusicSec >= item.start_at && currentMusicSec < item.end_at}
@@ -337,6 +336,7 @@ export default function HomePage() {
                                     </div>
                                 );
                             })}
+
                             <div className="absolute h-full w-full">
                                 <div className="w-full h-full relative">
                                     <div className="absolute z-10 flex justify-center w-full h-full ">
@@ -364,13 +364,7 @@ export default function HomePage() {
                                         }}
                                         className="absolute z-20 right-0 w-[30%] opacity-20 h-full"
                                     ></div>
-                                    <Image
-                                        height={"100%"}
-                                        width={"100%"}
-                                        className="object-cover absolute"
-                                        preview={false}
-                                        src={images[currentImage]?.path}
-                                    />
+                                    {storyContents[currentImage]}
                                 </div>
                             </div>
                         </div>
