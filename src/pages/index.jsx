@@ -18,7 +18,7 @@ import {
 import { useNavigate } from "react-router";
 import { ConfigContext } from "@/Setup";
 import { Transition } from "@headlessui/react";
-const SEC_PER_IMAGE = 5;
+const SEC_PER_IMAGE = 4;
 
 export default function HomePage() {
     const { me: meUsername, her: favUsername } = useContext(ConfigContext);
@@ -67,9 +67,9 @@ export default function HomePage() {
         { path: "story/20230923_160519000_iOS.mp4", message: "เดอะแบกมากมาย รวมถึงแบกพี่ด้วย" },
         {
             path: "/story/Screenshot_20230305_200856_Instagram.jpg",
-            message: "บางครั้งก็แอบคิดว่าถ้าได้เจอกันในช่วงเวลาที่เหมาะสมกว่านี้คงจะดี ยังมีอะไรอีกตั้งหลายอย่างที่อยากทำด้วยกะลี่",
+            message: "บางครั้งก็แอบคิดว่าถ้าได้เจอกันในช่วงเวลาที่เหมาะสมกว่านี้คงจะดี ยังมีอะไรอีกตั้งหลายอย่างที่อยากทำด้วยกะลี่ ละก็อยากจะบอกว่า ขอบคุณมากนะ พี่มีความสุขมากเลย แต่ก็อยากโตไปกะลี่ให้มากกว่านี้จังเลย",
         },
-        { path: "/story/IMG_0046.jpg", message: "ขอบคุณมากนะ พี่มีความสุขมากเลย สสวก คุณลี่นะครับ อยากโตไปกะลี่ให้มากกว่านี้จังเลย" },
+        { path: "/story/IMG_0046.jpg", message: " สสวก คุณลี่นะครับ ขอให้เรียนเก่งๆ เกรดออกมาสวยเหมือนที่ตั้งใจ ขอให้มีแต่คนใจดีรอบกายนะ" },
     ];
     const storyContents = images.map((item, index) => {
         if (!item.path.endsWith("mp4")) return <Image height={"100%"} width={"100%"} className="object-contain absolute" preview={false} src={item?.path} />;
