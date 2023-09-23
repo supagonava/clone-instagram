@@ -18,7 +18,7 @@ import {
 import { useNavigate } from "react-router";
 import { ConfigContext } from "@/Setup";
 import { Transition } from "@headlessui/react";
-const SEC_PER_IMAGE = 4;
+const SEC_PER_IMAGE = 5;
 
 export default function HomePage() {
     const { me: meUsername, her: favUsername } = useContext(ConfigContext);
@@ -50,18 +50,31 @@ export default function HomePage() {
         { path: "/story/46bc1a409c15439b9a1dd70464853c8f.mp4", message: "อันนี้ไปเดินเกษตรแฟร์ ลี่เดินจนขาแทบหัก เพราะเดินไปมาแถวสยามอีก เจ้าสิงโตตัวน้อยของผม" },
         { path: "/story/5a35dedd7dda4e27a736b2df9a8fa3ea.mp4", message: "คุณลี่เขาชอบมากะเสื้อตัวโปรดเขาแหละ เท่จังเลย" },
         { path: "/story/c73a52e9b71f4e7e83004e688cc13af6.mp4", message: "" },
-        { path: "/story/f9b7c652a2eb40fb8ef8f829699041a5.mp4", message: "" },
+        { path: "/story/f9b7c652a2eb40fb8ef8f829699041a5.mp4", message: "งานนี้ได้แต่ถามในใจเมื่อกี้พี่เห็นตูดใช่มั้ย" },
+        { path: "/story/black.jpeg", message: "บางเวลาพี่คิดถึงข้อความพวกนี้จัง" },
+        { path: "story/Screenshot 2566-09-23 at 21.58.14.png", message: "" },
+        { path: "story/Screenshot 2566-09-23 at 22.08.16.png", message: "ส่งการ์ดมาด้วยนะ ยกเว้นว่าการ์ดนั้นจะเป็นชื่อพี่เองอันนี้ไม่ต้องส่ง" },
+        { path: "story/20230923_154118000_iOS.jpg", message: "" },
+        { path: "story/20230923_153030000_iOS.jpg", message: "" },
+        { path: "story/20230923_152800000_iOS.jpg", message: "เขินมากกะรูปตัวเองอันนั้น" },
+        { path: "story/20230923_152515000_iOS.jpg", message: "" },
+        { path: "story/20230923_152427000_iOS.jpg", message: "" },
+        { path: "story/20230923_152116000_iOS.jpg", message: "" },
+        { path: "story/20230923_160537430_iOS.jpg", message: "" },
+        { path: "story/20230923_160540795_iOS.jpg", message: "" },
+        { path: "story/20230923_160533000_iOS.mp4", message: "สู้เขาาาลูกแม่ลี่" },
+        { path: "story/20230923_160519000_iOS.mp4", message: "เดอะแบกมากมาย รวมถึงแบกพี่ด้วย" },
         {
             path: "/story/Screenshot_20230305_200856_Instagram.jpg",
             message: "บางครั้งก็แอบคิดว่าถ้าได้เจอกันในช่วงเวลาที่เหมาะสมกว่านี้คงจะดี ยังมีอะไรอีกตั้งหลายอย่างที่อยากทำด้วยกะลี่",
         },
-        { path: "/story/IMG_0046.jpg", message: "ขอบคุณมากนะ พี่มีความสุขมากเลย (เอ๊ะวันเกิดใครกันเนี่ย)" },
+        { path: "/story/IMG_0046.jpg", message: "ขอบคุณมากนะ พี่มีความสุขมากเลย สสวก คุณลี่นะครับ อยากโตไปกะลี่ให้มากกว่านี้จังเลย" },
     ];
     const storyContents = images.map((item, index) => {
-        if (!item.path.endsWith("mp4")) return <Image height={"100%"} width={"100%"} className="object-cover absolute" preview={false} src={item?.path} />;
+        if (!item.path.endsWith("mp4")) return <Image height={"100%"} width={"100%"} className="object-contain absolute" preview={false} src={item?.path} />;
         return (
             <div className="video-container">
-                <video ref={videoRef} autoPlay loop muted>
+                <video ref={videoRef} autoPlay muted>
                     <source width="100%" src={item.path} type="video/mp4" />
                 </video>
             </div>
