@@ -60,8 +60,9 @@ export default function HomePage() {
         { path: "story/20230923_152515000_iOS.jpg", message: "" },
         { path: "story/20230923_152427000_iOS.jpg", message: "" },
         { path: "story/20230923_152116000_iOS.jpg", message: "" },
-        { path: "story/20230923_160537430_iOS.jpg", message: "" },
-        { path: "story/20230923_160540795_iOS.jpg", message: "" },
+        { path: "/story/black.jpeg", message: "พาย้อนวัยหน่อยยย" },
+        { path: "story/20230923_160537430_iOS.jpg", message: "ซุปเปอร์ปืนใหญ่นีโออาร์มสตรองไซโคลนเจ็ทอาร์มสตรอง" },
+        { path: "story/20230923_160540795_iOS.jpg", message: "จริงๆ ลี่เขียนคนเดียวเลยนะ 5555555555" },
         { path: "story/20230923_160533000_iOS.mp4", message: "สู้เขาาาลูกแม่ลี่" },
         { path: "story/20230923_160519000_iOS.mp4", message: "เดอะแบกมากมาย รวมถึงแบกพี่ด้วย" },
         {
